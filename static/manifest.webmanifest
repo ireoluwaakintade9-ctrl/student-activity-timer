@@ -1,0 +1,18 @@
+{
+  "name": "Student Activity Timer",
+  "short_name": "SAT Timer",
+  "description": "A simple focus timer for student activities.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8fc",
+  "theme_color": "#506ee5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/sat-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
