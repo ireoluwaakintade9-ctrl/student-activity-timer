@@ -13,7 +13,7 @@ const modalMessage = document.querySelector('#modalMessage');
 const themeToggle = document.querySelector('#themeToggle');
 const themeColor = document.querySelector('#themeColor');
 const circumference = 2 * Math.PI * 98;
-let totalSeconds = 25 * 60, remainingSeconds = totalSeconds, interval = null, soundEnabled = true, alarmInterval = null, alarmTimeout = null;
+let totalSeconds = 25 * 60, remainingSeconds = totalSeconds, interval = null, soundEnabled = true, alarmInterval = null, alarmTimeout = null, customDurationStarted = false;
 
 ring.style.strokeDasharray = circumference;
 ring.style.strokeDashoffset = 0;
@@ -52,8 +52,15 @@ function toggleTimer() {
   status.textContent = 'IN PROGRESS'; status.classList.remove('complete'); startButton.textContent = 'Pause timer';
   interval = setInterval(() => { remainingSeconds--; render(); if (remainingSeconds <= 0) finish(); }, 1000);
 }
-document.querySelectorAll('[data-minutes]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-minutes]').forEach(b => b.classList.remove('selected')); button.classList.add('selected'); customHours.value = 0; customMinutes.value = button.dataset.minutes; customSeconds.value = 0; setDuration(); }));
-[customHours, customMinutes, customSeconds].forEach(input => input.addEventListener('input', () => { document.querySelectorAll('[data-minutes]').forEach(b => b.classList.remove('selected')); setDuration(); }));
+document.querySelectorAll('[data-minutes]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-minutes]').forEach(b => b.classList.remove('selected')); button.classList.add('selected'); customDurationStarted = false; customHours.value = 0; customMinutes.value = button.dataset.minutes; customSeconds.value = 0; setDuration(); }));
+[customHours, customMinutes, customSeconds].forEach(input => input.addEventListener('input', () => {
+  if (!customDurationStarted) {
+    [customHours, customMinutes, customSeconds].forEach(field => { if (field !== input) field.value = 0; });
+    customDurationStarted = true;
+  }
+  document.querySelectorAll('[data-minutes]').forEach(button => button.classList.remove('selected'));
+  setDuration();
+}));
 activity.addEventListener('input', render); startButton.addEventListener('click', toggleTimer);
 resetButton.addEventListener('click', () => { clearInterval(interval); interval = null; stopAlarm(); setDuration(); startButton.innerHTML = 'Start timer <span>→</span>'; status.textContent = 'READY'; status.classList.remove('complete'); });
 document.querySelector('#doneButton').addEventListener('click', () => { stopAlarm(); modal.classList.add('hidden'); });
