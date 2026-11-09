@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='duration-controls.css') }}">
 </head>
 <body>
   <main class="shell">
@@ -47,13 +48,14 @@
         <button type="button" data-minutes="5">5 min</button><button type="button" data-minutes="15">15 min</button><button type="button" class="selected" data-minutes="25">25 min</button><button type="button" data-minutes="45">45 min</button><button type="button" data-minutes="60">60 min</button>
       </div>
       <div class="custom-row">
-        <label for="customMinutes">Or choose your own duration</label>
+        <label for="customHours">Or set an exact duration</label>
         <div class="duration-inputs" aria-label="Custom duration">
-          <label class="number-input"><input id="customHours" type="number" min="0" max="23" value="0" inputmode="numeric"><span>hours</span></label>
-          <label class="number-input"><input id="customMinutes" type="number" min="0" max="59" value="25" inputmode="numeric"><span>minutes</span></label>
-          <label class="number-input"><input id="customSeconds" type="number" min="0" max="59" value="0" inputmode="numeric"><span>seconds</span></label>
+          <label class="duration-field"><span>Hours</span><input id="customHours" type="number" min="0" max="23" value="0" inputmode="numeric"></label>
+          <label class="duration-field"><span>Minutes</span><input id="customMinutes" type="number" min="0" max="59" value="0" inputmode="numeric"></label>
+          <label class="duration-field"><span>Seconds</span><input id="customSeconds" type="number" min="0" max="59" value="0" inputmode="numeric"></label>
         </div>
       </div>
+      <p class="duration-hint">Example: for 30 seconds, enter <strong>0 hours · 0 minutes · 30 seconds</strong>.</p>
 
       <div class="timer-display" aria-live="polite">
         <svg class="progress-ring" viewBox="0 0 220 220" aria-hidden="true"><circle class="ring-base" cx="110" cy="110" r="98"/><circle class="ring-value" id="ringValue" cx="110" cy="110" r="98"/><g class="clock-ticks"><path d="M110 17v8M157 30l-4 7M190 63l-7 4M203 110h-8M190 157l-7-4M157 190l-4-7M110 203v-8M63 190l4-7M30 157l7-4M17 110h8M30 63l7 4M63 30l4 7"/></g></svg>
@@ -70,7 +72,7 @@
   <div class="modal hidden" id="timeUpModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-card"><div class="celebration">✦</div><p class="eyebrow">SESSION COMPLETE</p><h2 id="modalTitle">Time’s up!</h2><p id="modalMessage">Great work. You completed your activity.</p><button id="doneButton" class="start" type="button">Done</button></div>
   </div>
-  <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <script src="{{ url_for('static', filename='app.js') }}?v=3"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js'));
